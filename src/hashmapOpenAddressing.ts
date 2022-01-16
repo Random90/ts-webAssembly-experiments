@@ -1,4 +1,4 @@
-import { cyrb53 } from "./cyrb53_hash";
+import { AbstractHashtable } from "./hashtable";
 
 class Entry {
     key: string;
@@ -8,20 +8,23 @@ class Entry {
         this.value = value;
     }
 }
-export class Hashtable {
+export class Hashtable extends AbstractHashtable{
     table: Entry[];
     size = 0;
+    hash: string;
 
     private loadFactor = 0.75;
     private threshold: number;
 
-    constructor(m = 10) {
+    constructor(m = 10, hash = 'cyrb53') {
+        super(hash);
         this.table = new Array(m).fill(undefined);
         this.threshold = Math.min(m * this.loadFactor, m - 1);
+        this.hash = hash;
     }
 
-    public get(key: string): string | undefined {
-        let hc = cyrb53(key) % this.table.length;
+    public get(key: string): string | number | undefined {
+        let hc = this.getHash(key) % this.table.length;
         while (this.table[hc] !== undefined) {
             if (this.table[hc].key === key) {
                 return this.table[hc].value;
@@ -32,7 +35,7 @@ export class Hashtable {
     }
 
     public put(key: string, value: string): void {
-        let hc = cyrb53(key) % this.table.length;
+        let hc = this.getHash(key) % this.table.length;
         while (this.table[hc] !== undefined) {
             if (this.table[hc].key === key) {
                 this.table[hc].value = value;
@@ -65,11 +68,3 @@ export class Hashtable {
     }
 }
 
-const ht = new Hashtable(7);
-ht.put("test1", "test1");
-ht.put("test2", "test2");
-ht.put("test3", "test3");
-ht.put("test4", "test4");
-ht.put("test5", "test5");
-ht.put("test6", "test6");
-console.log(ht.table);
