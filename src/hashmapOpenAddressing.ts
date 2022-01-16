@@ -48,7 +48,7 @@ export class Hashtable {
         this.table[hc] = new Entry(key, value);
         this.size++;
 
-        if (this.size > this.threshold) {
+        if (this.size >= this.threshold) {
             this.resize(this.table.length * 2 + 1);
         }
     }
