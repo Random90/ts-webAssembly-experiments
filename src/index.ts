@@ -15,8 +15,6 @@ if (response.ok) {
 let t0: number;
 let t1: number;
 
-console.log("aaaa", wordsDictionary);
-
 const perfectSize = Object.entries(wordsDictionary).length / 0.75 + 1;
 
 // -------- openAddressing
