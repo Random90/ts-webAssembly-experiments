@@ -1,9 +1,11 @@
 {
   "scripts": {
-    "dev": "npm run clean && npm run copy-assets && npm run build:watch",
+    "dev": "npm run clean && npm run build:wasm && npm run copy-assets && npm run build:watch",
     "serve": "http-server ./dist",
     "clean": "rimraf dist/*",
-    "copy-assets": "ncp ./src/data/ ./dist/ && ncp ./index.html ./dist/index.html",
+    "copy-wasm": "ncp ./rust_src/rust-wasm-experiments/pkg/rust_wasm_experiments.js ./dist/rust_wasm_experiments.js && ncp ./rust_src/rust-wasm-experiments/pkg/rust_wasm_experiments_bg.wasm ./dist/rust_wasm_experiments_bg.wasm && ncp ./rust_src/rust-wasm-experiments/pkg/rust_wasm_experiments.d.ts ./src/rust_wasm_experiments.d.ts",
+    "copy-assets": "ncp ./src/data/ ./dist/ && ncp ./index.html ./dist/index.html && npm run copy-wasm",
+    "build:wasm": "wasm-pack build ./rust_src/rust-wasm-experiments/ --target web",
     "build:watch": "tsc -w"
   },
   "devDependencies": {
@@ -13,6 +15,6 @@
     "eslint-config-prettier": "^8.3.0",
     "ncp": "^2.0.0",
     "prettier": "2.5.1",
-    "rimraf": "^3.0.2"  
+    "rimraf": "^3.0.2"
   }
 }

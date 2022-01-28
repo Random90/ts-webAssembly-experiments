@@ -1,6 +1,9 @@
-// import * as wordsDictionary from "./data/words_dictionary.json";
 import * as htoa from "./classes/hashmapOpenAddressing.js";
 import * as htsc from "./classes/hashmapSeparateChaining.js";
+import init, { greet } from "./rust_wasm_experiments.js";
+
+await init();
+greet();
 
 let wordsDictionary: { [key: string]: string };
 
