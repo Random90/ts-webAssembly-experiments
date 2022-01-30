@@ -3,11 +3,11 @@ import { AbstractHashtable } from "./hashtable.js";
 
 class LinkedEntry {
   key: string;
-  value: string;
+  value: string | number;
   next: LinkedEntry | undefined;
   constructor(
     key: string,
-    value: string,
+    value: string | number,
     rest: LinkedEntry | undefined = undefined
   ) {
     this.key = key;
@@ -39,7 +39,7 @@ export class Hashtable extends AbstractHashtable {
     return undefined;
   }
 
-  public put(key: string, value: string): void {
+  public put(key: string, value: string | number): void {
     const hc = this.getHash(key) % this.table.length;
     let entry: LinkedEntry | undefined = this.table[hc];
     while (entry !== undefined) {
@@ -56,7 +56,7 @@ export class Hashtable extends AbstractHashtable {
     }
   }
 
-  public remove(key: string): string | undefined {
+  public remove(key: string): string | number | undefined {
     const hc = cyrb53(key) % this.table.length;
     let entry: LinkedEntry | undefined = this.table[hc];
     let prev: LinkedEntry | undefined = undefined;

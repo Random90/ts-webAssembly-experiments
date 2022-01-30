@@ -2,8 +2,8 @@ import { AbstractHashtable } from "./hashtable.js";
 
 class Entry {
   key: string;
-  value: string;
-  constructor(key: string, value: string) {
+  value: string | number;
+  constructor(key: string, value: string | number) {
     this.key = key;
     this.value = value;
   }
@@ -34,7 +34,7 @@ export class Hashtable extends AbstractHashtable {
     return undefined;
   }
 
-  public put(key: string, value: string): void {
+  public put(key: string, value: string | number): void {
     let hc = this.getHash(key) % this.table.length;
     while (this.table[hc] !== undefined) {
       if (this.table[hc].key === key) {

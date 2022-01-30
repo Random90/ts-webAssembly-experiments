@@ -6,7 +6,35 @@
     <title>Hashtable benchmarks</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <h3>Open the console</h3>
+      <p>
+        Comparing hashtable implementations performance by setting and accessing
+        english words one by one
+      </p>
+      <ul>
+        <li>
+          Array based hashtable with open addressing with precalculated array
+          size
+        </li>
+        <li>Linked List based hashtable with separate chaining</li>
+        <li>JS native Object</li>
+        <li>JS native Map</li>
+        <li>
+          Rust WebAssembly Native HashMap (without any optimizations with direct
+          string passing from JS to wasm)
+        </li>
+      </ul>
+      <p>
+        JS object is basically a hashtable, but Map has some additional
+        opimizations and should be faster.
+      </p>
+      <p>
+        In Rust WebAssembly HashMap, the biggest overhead probably comes from
+        communitation - JS cannot direct pass a string, must encode it first.
+      </p>
+      <p>Clearly Map is faster than any of other implementations</p>
+    </div>
     <script type="module" src="index.js"></script>
   </body>
 </html>

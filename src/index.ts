@@ -1,11 +1,10 @@
 import * as htoa from "./classes/hashmapOpenAddressing.js";
 import * as htsc from "./classes/hashmapSeparateChaining.js";
-import init, { greet } from "./rust_wasm_experiments.js";
+import init, { HashMapRust } from "./rust_wasm_experiments.js";
 
 await init();
-greet();
 
-let wordsDictionary: { [key: string]: string };
+let wordsDictionary: { [key: string]: number };
 
 const response = await fetch("/words_dictionary.json");
 if (response.ok) {
@@ -86,3 +85,24 @@ Object.entries(wordsDictionary).forEach(([key]) => {
 });
 t1 = performance.now();
 console.log(`JsMap access: ${t1 - t0} ms`);
+
+// -------- rust wasm native Hashmap
+
+t0 = performance.now();
+const ht5 = HashMapRust.new(perfectSize);
+// const keys = Object.keys(wordsDictionary);
+// for (let i = 0; i < 10; i++) {
+//   ht5.set(keys[i], wordsDictionary[keys[i]]);
+// }
+Object.entries(wordsDictionary).forEach(([key, value]) => {
+  ht5.set(key, value);
+});
+t1 = performance.now();
+console.log(`RustWasmNative build: ${t1 - t0} ms`);
+
+t0 = performance.now();
+Object.entries(wordsDictionary).forEach(([key]) => {
+  ht5.get(key);
+});
+t1 = performance.now();
+console.log(`RustWasmNative access: ${t1 - t0} ms`);
